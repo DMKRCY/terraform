@@ -198,11 +198,9 @@ func (c *RemoteClient) Lock(info *statemgr.LockInfo) (string, error) {
 		}
 		// if we don't find the blob, we need to build it
 
-		content := []byte("")
 		contentType := "application/json"
 		putGOptions := blobs.PutBlockBlobInput{
 			ContentType: &contentType,
-			Content:     &content,
 		}
 
 		if c.encryptionKey != "" {
