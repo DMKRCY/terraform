@@ -35,8 +35,6 @@ type RemoteClient struct {
 }
 
 func (c *RemoteClient) Get() (*remote.Payload, error) {
-	fmt.Println("RemoteClient Get")
-
 	options := blobs.GetInput{}
 	if c.leaseID != "" {
 		options.LeaseID = &c.leaseID
@@ -70,8 +68,6 @@ func (c *RemoteClient) Get() (*remote.Payload, error) {
 }
 
 func (c *RemoteClient) Put(data []byte) error {
-	fmt.Println("RemoteClient Put")
-
 	getOptions := blobs.GetPropertiesInput{}
 	setOptions := blobs.SetPropertiesInput{}
 	putOptions := blobs.PutBlockBlobInput{}
@@ -149,8 +145,6 @@ func (c *RemoteClient) Delete() error {
 }
 
 func (c *RemoteClient) Lock(info *statemgr.LockInfo) (string, error) {
-	fmt.Println("RemoteClient Lock")
-
 	stateName := fmt.Sprintf("%s/%s", c.containerName, c.keyName)
 	info.Path = stateName
 
@@ -236,8 +230,6 @@ func (c *RemoteClient) Lock(info *statemgr.LockInfo) (string, error) {
 }
 
 func (c *RemoteClient) getLockInfo() (*statemgr.LockInfo, error) {
-	fmt.Println("RemoteClient getLockInfo")
-
 	options := blobs.GetPropertiesInput{}
 	if c.leaseID != "" {
 		options.LeaseID = &c.leaseID
@@ -276,8 +268,6 @@ func (c *RemoteClient) getLockInfo() (*statemgr.LockInfo, error) {
 
 // writes info to blob meta data, deletes metadata entry if info is nil
 func (c *RemoteClient) writeLockInfo(info *statemgr.LockInfo) error {
-	fmt.Println("RemoteClient writeLockInfo")
-
 	getPropertiesOptions := blobs.GetPropertiesInput{LeaseID: &c.leaseID}
 
 	if c.encryptionKey != "" {
