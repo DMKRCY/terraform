@@ -175,8 +175,16 @@ func (c *RemoteClient) Lock(info *statemgr.LockInfo) (string, error) {
 	}
 	ctx := context.TODO()
 
+	getPropertiesOptions := blobs.GetPropertiesInput{}
+
+	if c.encryptionKey != "" {
+		getPropertiesOptions.EncryptionKey = &c.encryptionKey
+		getPropertiesOptions.EncryptionKeyAlgorithm = &c.encryptionKeyAlgorithm
+		getPropertiesOptions.EncryptionKeySHA256 = &c.encryptionKeySHA256
+	}
+
 	// obtain properties to see if the blob lease is already in use. If the blob doesn't exist, create it
-	properties, err := c.giovanniBlobClient.GetProperties(ctx, c.accountName, c.containerName, c.keyName, blobs.GetPropertiesInput{})
+	properties, err := c.giovanniBlobClient.GetProperties(ctx, c.accountName, c.containerName, c.keyName, getPropertiesOptions)
 	if err != nil {
 		// error if we had issues getting the blob
 		if !properties.Response.IsHTTPStatus(http.StatusNotFound) {
@@ -187,6 +195,12 @@ func (c *RemoteClient) Lock(info *statemgr.LockInfo) (string, error) {
 		contentType := "application/json"
 		putGOptions := blobs.PutBlockBlobInput{
 			ContentType: &contentType,
+		}
+
+		if c.encryptionKey != "" {
+			putGOptions.EncryptionKey = &c.encryptionKey
+			putGOptions.EncryptionKeyAlgorithm = &c.encryptionKeyAlgorithm
+			putGOptions.EncryptionKeySHA256 = &c.encryptionKeySHA256
 		}
 
 		_, err = c.giovanniBlobClient.PutBlockBlob(ctx, c.accountName, c.containerName, c.keyName, putGOptions)
@@ -221,6 +235,12 @@ func (c *RemoteClient) getLockInfo() (*statemgr.LockInfo, error) {
 		options.LeaseID = &c.leaseID
 	}
 
+	if c.encryptionKey != "" {
+		options.EncryptionKey = &c.encryptionKey
+		options.EncryptionKeyAlgorithm = &c.encryptionKeyAlgorithm
+		options.EncryptionKeySHA256 = &c.encryptionKeySHA256
+	}
+
 	ctx := context.TODO()
 	blob, err := c.giovanniBlobClient.GetProperties(ctx, c.accountName, c.containerName, c.keyName, options)
 	if err != nil {
@@ -248,8 +268,16 @@ func (c *RemoteClient) getLockInfo() (*statemgr.LockInfo, error) {
 
 // writes info to blob meta data, deletes metadata entry if info is nil
 func (c *RemoteClient) writeLockInfo(info *statemgr.LockInfo) error {
+	getPropertiesOptions := blobs.GetPropertiesInput{LeaseID: &c.leaseID}
+
+	if c.encryptionKey != "" {
+		getPropertiesOptions.EncryptionKey = &c.encryptionKey
+		getPropertiesOptions.EncryptionKeyAlgorithm = &c.encryptionKeyAlgorithm
+		getPropertiesOptions.EncryptionKeySHA256 = &c.encryptionKeySHA256
+	}
+
 	ctx := context.TODO()
-	blob, err := c.giovanniBlobClient.GetProperties(ctx, c.accountName, c.containerName, c.keyName, blobs.GetPropertiesInput{LeaseID: &c.leaseID})
+	blob, err := c.giovanniBlobClient.GetProperties(ctx, c.accountName, c.containerName, c.keyName, getPropertiesOptions)
 	if err != nil {
 		return err
 	}
@@ -267,6 +295,12 @@ func (c *RemoteClient) writeLockInfo(info *statemgr.LockInfo) error {
 	opts := blobs.SetMetaDataInput{
 		LeaseID:  &c.leaseID,
 		MetaData: blob.MetaData,
+	}
+
+	if c.encryptionKey != "" {
+		opts.EncryptionKey = &c.encryptionKey
+		opts.EncryptionKeyAlgorithm = &c.encryptionKeyAlgorithm
+		opts.EncryptionKeySHA256 = &c.encryptionKeySHA256
 	}
 
 	_, err = c.giovanniBlobClient.SetMetaData(ctx, c.accountName, c.containerName, c.keyName, opts)

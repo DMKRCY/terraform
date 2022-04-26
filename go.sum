@@ -85,8 +85,8 @@ github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym
 github.com/ChrisTrenkamp/goxpath v0.0.0-20170922090931-c385f95c6022/go.mod h1:nuWgzSkT5PnyOd+272uUmV0dnAnAn42Mk7PiQC5VzN4=
 github.com/ChrisTrenkamp/goxpath v0.0.0-20190607011252-c5096ec8773d h1:W1diKnDQkXxNDhghdBSbQ4LI/E1aJNTwpqPp3KtlB8w=
 github.com/ChrisTrenkamp/goxpath v0.0.0-20190607011252-c5096ec8773d/go.mod h1:nuWgzSkT5PnyOd+272uUmV0dnAnAn42Mk7PiQC5VzN4=
-github.com/DMKRCY/giovanni v0.15.5 h1:dYlz/DMfToOf8Zm++dGPX3Etcvs96XXiJEw4a8d1KMk=
-github.com/DMKRCY/giovanni v0.15.5/go.mod h1:H5EnCoi7BGlsVdbrDr3UMQNGSMVpxZYtXudIdL+hTx4=
+github.com/DMKRCY/giovanni v0.15.6 h1:wyhk8E+1To+ZC2o4IHkOEPmyZlir/TA6Do5C7o38Jqc=
+github.com/DMKRCY/giovanni v0.15.6/go.mod h1:H5EnCoi7BGlsVdbrDr3UMQNGSMVpxZYtXudIdL+hTx4=
 github.com/Masterminds/goutils v1.1.0 h1:zukEsf/1JZwCMgHiK3GZftabmxiCw4apj3a28RPBiVg=
 github.com/Masterminds/goutils v1.1.0/go.mod h1:8cTjp+g8YejhMuvIA5y2vz3BpJxksy863GQaJW2MFNU=
 github.com/Masterminds/semver v1.5.0 h1:H65muMkzWKEuNDnfl9d70GUjFniHKHRbFPGBuZ3QEww=
