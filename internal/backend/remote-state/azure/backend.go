@@ -180,11 +180,14 @@ type Backend struct {
 	*schema.Backend
 
 	// The fields below are set from configure
-	armClient     *ArmClient
-	containerName string
-	keyName       string
-	accountName   string
-	snapshot      bool
+	armClient              *ArmClient
+	containerName          string
+	keyName                string
+	accountName            string
+	snapshot               bool
+	encryptionKey          string
+	encryptionKeyAlgorithm string
+	encryptionKeySHA256    string
 }
 
 type BackendConfig struct {
@@ -224,6 +227,9 @@ func (b *Backend) configure(ctx context.Context) error {
 	b.accountName = data.Get("storage_account_name").(string)
 	b.keyName = data.Get("key").(string)
 	b.snapshot = data.Get("snapshot").(bool)
+	b.encryptionKey = data.Get("encryption_key").(string)
+	b.encryptionKeyAlgorithm = data.Get("encryption_key_algorithm").(string)
+	b.encryptionKeySHA256 = data.Get("encryption_key_sha256").(string)
 
 	config := BackendConfig{
 		AccessKey:                     data.Get("access_key").(string),

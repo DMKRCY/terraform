@@ -86,11 +86,14 @@ func (b *Backend) StateMgr(name string) (statemgr.Full, error) {
 	}
 
 	client := &RemoteClient{
-		giovanniBlobClient: *blobClient,
-		containerName:      b.containerName,
-		keyName:            b.path(name),
-		accountName:        b.accountName,
-		snapshot:           b.snapshot,
+		giovanniBlobClient:     *blobClient,
+		containerName:          b.containerName,
+		keyName:                b.path(name),
+		accountName:            b.accountName,
+		snapshot:               b.snapshot,
+		encryptionKey:          b.encryptionKey,
+		encryptionKeyAlgorithm: b.encryptionKeyAlgorithm,
+		encryptionKeySHA256:    b.encryptionKeySHA256,
 	}
 
 	stateMgr := &remote.State{Client: client}
