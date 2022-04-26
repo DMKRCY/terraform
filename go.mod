@@ -76,7 +76,6 @@ require (
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/tag v1.0.233
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.29
 	github.com/tombuildsstuff/giovanni v0.15.1
-	github.com/DMKRCY/giovanni v0.19.0
 	github.com/xanzy/ssh-agent v0.3.1
 	github.com/xlab/treeprint v0.0.0-20161029104018-1d6e34225557
 	github.com/zclconf/go-cty v1.10.0
@@ -196,6 +195,8 @@ require (
 replace google.golang.org/grpc v1.36.1 => google.golang.org/grpc v1.27.1
 
 replace github.com/golang/mock v1.5.0 => github.com/golang/mock v1.4.4
+
+replace github.com/tombuildsstuff/giovanni v0.15.1 => github.com/DMKRCY/giovanni v0.15.2
 
 // github.com/dgrijalva/jwt-go is no longer maintained but is an indirect
 // dependency of the old etcdv2 backend, and so we need to keep this working
