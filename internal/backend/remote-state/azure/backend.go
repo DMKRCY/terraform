@@ -201,9 +201,6 @@ type BackendConfig struct {
 	ClientCertificatePath         string
 	ClientSecret                  string
 	CustomResourceManagerEndpoint string
-	EncryptionKey                 string
-	EncryptionKeyAlgorithm        string
-	EncryptionKeySHA256           string
 	MetadataHost                  string
 	Environment                   string
 	MsiEndpoint                   string
@@ -238,9 +235,6 @@ func (b *Backend) configure(ctx context.Context) error {
 		ClientCertificatePath:         data.Get("client_certificate_path").(string),
 		ClientSecret:                  data.Get("client_secret").(string),
 		CustomResourceManagerEndpoint: data.Get("endpoint").(string),
-		EncryptionKey:                 data.Get("encryption_key").(string),
-		EncryptionKeyAlgorithm:        data.Get("encryption_key_algorithm").(string),
-		EncryptionKeySHA256:           data.Get("encryption_key_sha256").(string),
 		MetadataHost:                  data.Get("metadata_host").(string),
 		Environment:                   data.Get("environment").(string),
 		MsiEndpoint:                   data.Get("msi_endpoint").(string),
