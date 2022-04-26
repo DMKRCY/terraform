@@ -135,6 +135,26 @@ func New() backend.Backend {
 				DefaultFunc: schema.EnvDefaultFunc("ARM_MSI_ENDPOINT", ""),
 			},
 
+			// Service Principal (Client Secret) specific
+			"encryption_key": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "A Base64-encoded AES-256 encryption key value used to encrypt the state file.",
+				DefaultFunc: schema.EnvDefaultFunc("ARM_ENCRYPTION_KEY", ""),
+			},
+			"encryption_key_algorithm": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Specifies the algorithm to use when encrypting data using the given key. The value of this header must be AES256.",
+				DefaultFunc: schema.EnvDefaultFunc("ARM_ENCRYPTION_KEY_ALGORITHM", ""),
+			},
+			"encryption_key_sha256": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "The Base64-encoded SHA256 of the encryption key.",
+				DefaultFunc: schema.EnvDefaultFunc("ARM_ENCRYPTION_KEY_SHA256", ""),
+			},
+
 			// Feature Flags
 			"use_azuread_auth": {
 				Type:        schema.TypeBool,
@@ -178,6 +198,9 @@ type BackendConfig struct {
 	ClientCertificatePath         string
 	ClientSecret                  string
 	CustomResourceManagerEndpoint string
+	EncryptionKey                 string
+	EncryptionKeyAlgorithm        string
+	EncryptionKeySHA256           string
 	MetadataHost                  string
 	Environment                   string
 	MsiEndpoint                   string
@@ -209,6 +232,9 @@ func (b *Backend) configure(ctx context.Context) error {
 		ClientCertificatePath:         data.Get("client_certificate_path").(string),
 		ClientSecret:                  data.Get("client_secret").(string),
 		CustomResourceManagerEndpoint: data.Get("endpoint").(string),
+		EncryptionKey:                 data.Get("encryption_key").(string),
+		EncryptionKeyAlgorithm:        data.Get("encryption_key_algorithm").(string),
+		EncryptionKeySHA256:           data.Get("encryption_key_sha256").(string),
 		MetadataHost:                  data.Get("metadata_host").(string),
 		Environment:                   data.Get("environment").(string),
 		MsiEndpoint:                   data.Get("msi_endpoint").(string),

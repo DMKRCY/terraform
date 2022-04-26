@@ -23,18 +23,27 @@ const (
 )
 
 type RemoteClient struct {
-	giovanniBlobClient blobs.Client
-	accountName        string
-	containerName      string
-	keyName            string
-	leaseID            string
-	snapshot           bool
+	giovanniBlobClient     blobs.Client
+	accountName            string
+	containerName          string
+	encryptionKey          string
+	encryptionKeyAlgorithm string
+	encryptionKeySHA256    string
+	keyName                string
+	leaseID                string
+	snapshot               bool
 }
 
 func (c *RemoteClient) Get() (*remote.Payload, error) {
 	options := blobs.GetInput{}
 	if c.leaseID != "" {
 		options.LeaseID = &c.leaseID
+	}
+
+	if c.encryptionKey != "" {
+		options.EncryptionKey = &c.encryptionKey
+		options.EncryptionKeyAlgorithm = &c.encryptionKeyAlgorithm
+		options.EncryptionKeySHA256 = &c.encryptionKeySHA256
 	}
 
 	ctx := context.TODO()
@@ -69,6 +78,24 @@ func (c *RemoteClient) Put(data []byte) error {
 		getOptions.LeaseID = &c.leaseID
 		setOptions.LeaseID = &c.leaseID
 		putOptions.LeaseID = &c.leaseID
+	}
+
+	if c.encryptionKey != "" {
+		options.EncryptionKey = &c.encryptionKey
+		options.EncryptionKeyAlgorithm = &c.encryptionKeyAlgorithm
+		options.EncryptionKeySHA256 = &c.encryptionKeySHA256
+
+		getOptions.EncryptionKey = &c.encryptionKey
+		getOptions.EncryptionKeyAlgorithm = &c.encryptionKeyAlgorithm
+		getOptions.EncryptionKeySHA256 = &c.encryptionKeySHA256
+
+		setOptions.EncryptionKey = &c.encryptionKey
+		setOptions.EncryptionKeyAlgorithm = &c.encryptionKeyAlgorithm
+		setOptions.EncryptionKeySHA256 = &c.encryptionKeySHA256
+
+		putOptions.EncryptionKey = &c.encryptionKey
+		putOptions.EncryptionKeyAlgorithm = &c.encryptionKeyAlgorithm
+		putOptions.EncryptionKeySHA256 = &c.encryptionKeySHA256
 	}
 
 	ctx := context.TODO()
